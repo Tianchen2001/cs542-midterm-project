@@ -6,7 +6,9 @@ class LNN(nn.Module):
         super(LNN, self).__init__()
 
         self.model = nn.Sequential(
-            nn.Linear(input_size, 4096),
+            nn.Linear(input_size, 2048),
+            nn.ReLU(),
+            nn.Linear(2048, 4096),
             nn.ReLU(),
             nn.Linear(4096, 4096),
             nn.ReLU(),

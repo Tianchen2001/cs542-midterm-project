@@ -38,7 +38,10 @@ class CNN(nn.Module):
 
             nn.Flatten(),
 
-            nn.Linear(64 * 4 * 4, 1000),
+            nn.Linear(64 * 4 * 4, 4000),
+            nn.ReLU(),
+            
+            nn.Linear(4000, 1000),
             nn.ReLU(),
 
             nn.Linear(1000, num_classes)
