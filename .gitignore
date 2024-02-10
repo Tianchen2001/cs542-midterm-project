@@ -1,5 +1,8 @@
 # dataset
-data/
+**/data/
 
 # pycache
 **/__pycache__/
+
+# model weights
+**/weights/
