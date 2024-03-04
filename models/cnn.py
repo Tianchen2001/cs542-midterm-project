@@ -35,13 +35,23 @@ class CNN(nn.Module):
             nn.ReLU(),
 
             nn.MaxPool2d(kernel_size=2, stride=2),
+            
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            
+            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            
+            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Flatten(),
 
-            nn.Linear(64 * 4 * 4, 4000),
+            nn.Linear(128 * 2 * 2, 4096),
             nn.ReLU(),
             
-            nn.Linear(4000, 1000),
+            nn.Linear(4096, 1000),
             nn.ReLU(),
 
             nn.Linear(1000, num_classes)
