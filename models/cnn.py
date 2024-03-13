@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 class CNN(nn.Module):
-    def __init__(self, in_features, num_classes):
+    def __init__(self, in_features, num_classes, input_size=32):
         super(CNN, self).__init__()
 
         self.model = nn.Sequential(
@@ -35,23 +35,10 @@ class CNN(nn.Module):
             nn.ReLU(),
 
             nn.MaxPool2d(kernel_size=2, stride=2),
-            
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            
-            nn.Conv2d(128, 128, kernel_size=3, stride=1, padding=1),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            
-            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Flatten(),
 
-            nn.Linear(128 * 2 * 2, 4096),
-            nn.ReLU(),
-            
-            nn.Linear(4096, 1000),
+            nn.Linear(64 * (input_size // 2 // 2 // 2)**2, 1000),
             nn.ReLU(),
 
             nn.Linear(1000, num_classes)

@@ -12,11 +12,9 @@ class LNN(nn.Module):
             nn.ReLU(),
             nn.Linear(2048, 4096),
             nn.ReLU(),
-            nn.Linear(4096, 4096),
+            nn.Linear(4096, 1024),
             nn.ReLU(),
-            nn.Linear(4096, 1000),
-            nn.ReLU(),
-            nn.Linear(1000, num_classes)
+            nn.Linear(1024, num_classes)
         )
     
     def forward(self, x):
