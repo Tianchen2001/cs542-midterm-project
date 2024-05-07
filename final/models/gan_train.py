@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import matplotlib.gridspec as gridspec
 
 from models.utils import sample_noise, show_images, deprocess_img, preprocess_img
 
@@ -68,10 +67,6 @@ def train_gan(
             g_error = None
             fake_images = None
 
-            ####################################
-            #          YOUR CODE HERE          #
-            ####################################
-
             # Discriminator step
             noise = sample_noise(batch_size, noise_size).to(device)
             noise = noise.view(batch_size, noise_size, 1, 1)
@@ -98,8 +93,6 @@ def train_gan(
             G_solver.zero_grad()
             g_error.backward()
             G_solver.step()
-            
-            ##########       END      ##########
 
             # Logging and output visualization
             if iter_count % show_every == 0:
