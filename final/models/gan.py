@@ -2,11 +2,54 @@ import torch
 import torch.nn as nn
 
 
-class Discriminator(torch.nn.Module):
-    def __init__(self, input_channels=3):
-        super(Discriminator, self).__init__()
+class Flatten(nn.Module):
+    def forward(self, x):
+        N, *_ = x.size()
+        return x.view(N, -1)
 
-        self.model = torch.nn.Sequential(
+
+class LNN_Discriminator(nn.Module):
+    def __init__(self, input_channels=3, image_size=32):
+        super(LNN_Discriminator, self).__init__()
+
+        self.model = nn.Sequential(
+            Flatten(),
+            nn.Linear(input_channels * image_size**2, 256),
+            nn.LeakyReLU(),
+            nn.Linear(256, 256), 
+            nn.LeakyReLU(),
+            nn.Linear(256, 1)
+        )
+    
+    def forward(self, x):
+        x = self.model(x)
+        return x
+
+
+class LNN_Generator(nn.Module):
+    def __init__(self, noise_dim):
+        super(LNN_Generator, self).__init__()
+
+        self.model = nn.Sequential(
+            Flatten(),
+            nn.Linear(noise_dim, 1024), 
+            nn.LeakyReLU(),
+            nn.Linear(1024, 1024), 
+            nn.LeakyReLU(),
+            nn.Linear(1024, 784),
+            nn.Tanh()
+        )
+    
+    def forward(self, x):
+        x = self.model(x)
+        return x
+
+
+class CNN_Discriminator(nn.Module):
+    def __init__(self, input_channels=3):
+        super(CNN_Discriminator, self).__init__()
+
+        self.model = nn.Sequential(
             nn.Conv2d(input_channels, 128, kernel_size=4, stride=2, padding=1),
             nn.LeakyReLU(0.2),
             
@@ -30,9 +73,9 @@ class Discriminator(torch.nn.Module):
         return x
 
 
-class Generator(torch.nn.Module):
+class CNN_Generator(nn.Module):
     def __init__(self, noise_dim, output_channels=3):
-        super(Generator, self).__init__()
+        super(CNN_Generator, self).__init__()
         self.noise_dim = noise_dim
         
         self.model = nn.Sequential(
